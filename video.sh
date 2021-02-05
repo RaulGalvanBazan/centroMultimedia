@@ -2,7 +2,7 @@
 pkill vlc
 if [ -d "$1" ]; then
    cd "$1"
-   vlc -f -L --audio-visual=visual --effect-list=spectrometer ./
+   vlc -f -L ./
 else
    pkill menu.py
    ./menu.py
