@@ -33,8 +33,10 @@ if len(subDirs) > 0:
             fileType = fileType.split("/")[0]
             fileTypes.append(fileType)
             mediaType.append(fileType) if fileType not in mediaType else mediaType
+            
       if len(mediaType) == 1 and mediaType[0] == 'audio':
-         usb.append(["USB-" + name, ["./musica.sh", subdir]])
+         files = [f.name for f in files]
+         usb.append(["USB-" + name, ["./musica.sh", subdir, " ".join(files)]])
       elif len(mediaType) == 1 and mediaType[0] == 'video':
          files = [f.name for f in files]
          usb.append(["USB-" + name, ["./submenu.py", media, name, " ".join(files), "video"]])
@@ -43,7 +45,7 @@ if len(subDirs) > 0:
          usb.append(["USB-" + name, ["./pictures.sh", subdir, " ".join(files)]])
       elif len(mediaType) > 1:
          files = [f.name for f in files]
-         usb.append(["USB-" + name, ["./submenuMixed.py", media, name, " ".join(files), " ".join(fileTypes)]])
+         usb.append(["USB-" + name, ["./submenuMixed.sh", media, name, " ".join(files), " ".join(fileTypes)]])
 else:
    usb.append(["Scan USB", ["./restart.sh"]])
 

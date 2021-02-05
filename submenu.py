@@ -8,12 +8,21 @@ import sys
 import mimetypes
 
 mimetypes.init()
-subdir = sys.argv[0]
-media = sys.argv[1]
+subdir = sys.argv[1]
+media = sys.argv[2]
+files = sys.argv[3].split(" ")
+mode = sys.argv[4]
 
-#Se listan todos los archivos de video
-files = [f for f in os.scandir(os.path.join(subdir, media)) if f.is_file()]
-file_list = [[f.name, ["./video.sh", os.path.join(subdir, f)]] for f in files]
+if mode == "video":
+   files = [os.path.join(subdir, media, f) for f in files]
+   file_list = [[f, ["./video.sh", f]] for f in files]
+
+if mode == "audio":
+   file_list = [[f, ["./musica.sh", os.path.join(subdir, media), f]] for f in files]
+
+if mode == "image":
+   file_list = [[f, ["./pictures.sh", os.path.join(subdir, media), f]] for f in files]
+
 
 APP_NAME = 0
 APP_CMD = 1

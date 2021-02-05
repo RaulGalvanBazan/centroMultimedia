@@ -13,8 +13,7 @@ media = sys.argv[2]
 files = sys.argv[3].split(" ")
 mediaType = sys.argv[4].split(" ")
 
-print(files)
-print(mediaType)
+print(subdir)
 
 def guessType(path):
    fileType = mimetypes.guess_type(path)[0]
@@ -34,18 +33,26 @@ imageFiles = []
 for i in range(len(files)):
    videoFiles.append(files[i]) if mediaType[i] == "video" else \
    audioFiles.append(files[i]) if mediaType[i] == "audio" else \
-   imageFiles.append(files[i]) if mediaType[i] == "audio" else None
+   imageFiles.append(files[i]) if mediaType[i] == "image" else None
 
 action_list = []
 
 if videoFiles: 
    action_list.append(["Reproducir Videos", \
    ["./submenu.py", subdir, media, " ".join(videoFiles), "video"]])
+   
 if audioFiles:
-   action_list.append(["Reproducir Musica", \
+   print(audioFiles)
+   action_list.append(["Reproducir toda la música", \
+   ["./musica.sh", os.path.join(subdir, media), " ".join(audioFiles)]])
+   action_list.append(["Seleccionar canción", \
    ["./submenu.py", subdir, media, " ".join(audioFiles), "audio"]])
+   
 if imageFiles:
-   action_list.append(["Reproducir Imagenes", \
+   action_list.append(["Reproducir todas las imágenes", \
+   ["./pictures.sh", os.path.join(subdir, media), " ".join(imageFiles)]])
+   
+   action_list.append(["Seleccionar la imagen", \
    ["./submenu.py", subdir, media, " ".join(imageFiles), "image"]])
 
 
