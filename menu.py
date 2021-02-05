@@ -12,7 +12,6 @@ mimetypes.init()
 #se listan los subdirectorios en /media/pi que es
 #en donde se hace el montaje de los dispositivos usb
 media = "/media/pi"
-#media = "/home/pi/media/"
 subDirs = [dir.name for dir in os.scandir(media) if dir.is_dir()]
 usb = []
 
@@ -27,21 +26,24 @@ if len(subDirs) > 0:
       subdir = os.path.join(media, name)
       files = [f for f in os.scandir(subdir) if f.is_file()]
       mediaType = []
+      fileTypes= []
       for f in files:
          fileType = mimetypes.guess_type(os.path.join(subdir, f))[0]
          if fileType != None:
             fileType = fileType.split("/")[0]
+            fileTypes.append(fileType)
             mediaType.append(fileType) if fileType not in mediaType else mediaType
       if len(mediaType) == 1 and mediaType[0] == 'audio':
          usb.append(["USB-" + name, ["./musica.sh", subdir]])
       elif len(mediaType) == 1 and mediaType[0] == 'video':
-         usb.append(["USB-" + name, ["./video.sh", subdir]])
+         files = [f.name for f in files]
+         usb.append(["USB-" + name, ["./submenu.py", media, name, " ".join(files), "video"]])
       elif len(mediaType) == 1 and mediaType[0] == 'image':
-         print(files)
          files = [f.name for f in files]
          usb.append(["USB-" + name, ["./pictures.sh", subdir, " ".join(files)]])
       elif len(mediaType) > 1:
-            usb.append(["aver", "chale"])
+         files = [f.name for f in files]
+         usb.append(["USB-" + name, ["./submenuMixed.py", media, name, " ".join(files), " ".join(fileTypes)]])
 else:
    usb.append(["Scan USB", ["./restart.sh"]])
 
