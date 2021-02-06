@@ -1,6 +1,7 @@
 #! /bin/bash
-if [ -d "$1"/"$2" ]; then
-   ./submenuMixed.py "$1" "$2" "$3" "$4"
+if [ -d "$1" ]; then
+   pkill menu.py
+   ./menu.py "$1" "$2" "$3"
 else
    pkill menu.py
    ./menu.py
